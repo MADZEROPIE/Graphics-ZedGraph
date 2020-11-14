@@ -65,10 +65,44 @@ namespace Graph {
 	private: System::Windows::Forms::CheckBox^ checkBox1;
 	private: System::Windows::Forms::TextBox^ textBox8;
 	private: System::Windows::Forms::Label^ label8;
+
+
+
+
+	private: System::Windows::Forms::ToolTip^ toolTip1;
+	private: System::Windows::Forms::TextBox^ textBox9;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ X;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^ V;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ F_1;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ H;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Global_Mistake;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Local_Mistake;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -93,10 +127,6 @@ namespace Graph {
 			this->zedGraphControl1 = (gcnew ZedGraph::ZedGraphControl());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
-			this->X = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->F_1 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->H = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Local_Mistake = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
@@ -114,6 +144,14 @@ namespace Graph {
 			this->checkBox1 = (gcnew System::Windows::Forms::CheckBox());
 			this->textBox8 = (gcnew System::Windows::Forms::TextBox());
 			this->label8 = (gcnew System::Windows::Forms::Label());
+			this->toolTip1 = (gcnew System::Windows::Forms::ToolTip(this->components));
+			this->textBox9 = (gcnew System::Windows::Forms::TextBox());
+			this->Local_Mistake = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->Global_Mistake = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->H = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->F_1 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->V = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->X = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -134,54 +172,30 @@ namespace Graph {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(595, 391);
+			this->button1->Location = System::Drawing::Point(558, 391);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(237, 81);
+			this->button1->Size = System::Drawing::Size(439, 115);
 			this->button1->TabIndex = 1;
 			this->button1->Text = L"Draw";
+			this->toolTip1->SetToolTip(this->button1, L"Построить решение и его график.");
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
 			// dataGridView1
 			// 
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {
-				this->X, this->F_1,
-					this->H, this->Local_Mistake
+			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {
+				this->X, this->V,
+					this->F_1, this->H, this->Global_Mistake, this->Local_Mistake
 			});
 			this->dataGridView1->Location = System::Drawing::Point(556, 12);
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->ReadOnly = true;
 			this->dataGridView1->RowHeadersVisible = false;
-			this->dataGridView1->Size = System::Drawing::Size(290, 354);
+			this->dataGridView1->Size = System::Drawing::Size(441, 354);
 			this->dataGridView1->TabIndex = 2;
-			// 
-			// X
-			// 
-			this->X->HeaderText = L"X";
-			this->X->Name = L"X";
-			this->X->ReadOnly = true;
-			this->X->Width = 50;
-			// 
-			// F_1
-			// 
-			this->F_1->HeaderText = L"U";
-			this->F_1->Name = L"F_1";
-			this->F_1->ReadOnly = true;
-			this->F_1->Width = 70;
-			// 
-			// H
-			// 
-			this->H->HeaderText = L"H";
-			this->H->Name = L"H";
-			this->H->ReadOnly = true;
-			this->H->Width = 70;
-			// 
-			// Local_Mistake
-			// 
-			this->Local_Mistake->HeaderText = L"Local Mistake";
-			this->Local_Mistake->Name = L"Local_Mistake";
-			this->Local_Mistake->ReadOnly = true;
+			this->toolTip1->SetToolTip(this->dataGridView1, L"V - численное решение. U - точное решение. \r\nh - с каким шагом была посчитана точ"
+				L"ка. \r\nLocal_Mistake - ОЛП в точке. \r\nGlobal_Mistake - Глобальная погрешность.\r\n");
 			// 
 			// label1
 			// 
@@ -192,6 +206,7 @@ namespace Graph {
 			this->label1->Size = System::Drawing::Size(28, 13);
 			this->label1->TabIndex = 3;
 			this->label1->Text = L"xmin";
+			this->toolTip1->SetToolTip(this->label1, L"Начало отрезка интегрирования");
 			// 
 			// textBox1
 			// 
@@ -209,6 +224,7 @@ namespace Graph {
 			this->label2->Size = System::Drawing::Size(31, 13);
 			this->label2->TabIndex = 5;
 			this->label2->Text = L"xmax";
+			this->toolTip1->SetToolTip(this->label2, L"Конец отрезка интегрирования");
 			// 
 			// textBox2
 			// 
@@ -226,6 +242,7 @@ namespace Graph {
 			this->label3->Size = System::Drawing::Size(13, 13);
 			this->label3->TabIndex = 7;
 			this->label3->Text = L"h";
+			this->toolTip1->SetToolTip(this->label3, L"Стартовый шаг метода");
 			// 
 			// textBox3
 			// 
@@ -251,6 +268,7 @@ namespace Graph {
 			this->label4->Size = System::Drawing::Size(10, 13);
 			this->label4->TabIndex = 12;
 			this->label4->Text = L"t";
+			this->toolTip1->SetToolTip(this->label4, L"Температура газа/жидкости, в который(ую) помещено тело.");
 			// 
 			// textBox5
 			// 
@@ -258,7 +276,7 @@ namespace Graph {
 			this->textBox5->Name = L"textBox5";
 			this->textBox5->Size = System::Drawing::Size(48, 20);
 			this->textBox5->TabIndex = 11;
-			this->textBox5->Text = L"0";
+			this->textBox5->Text = L"5";
 			// 
 			// label5
 			// 
@@ -268,6 +286,7 @@ namespace Graph {
 			this->label5->Size = System::Drawing::Size(13, 13);
 			this->label5->TabIndex = 10;
 			this->label5->Text = L"a";
+			this->toolTip1->SetToolTip(this->label5, L"Коэффициент пропорциональности. Должен быть положительным.");
 			// 
 			// textBox6
 			// 
@@ -275,7 +294,7 @@ namespace Graph {
 			this->textBox6->Name = L"textBox6";
 			this->textBox6->Size = System::Drawing::Size(55, 20);
 			this->textBox6->TabIndex = 15;
-			this->textBox6->Text = L"1";
+			this->textBox6->Text = L"2";
 			// 
 			// label6
 			// 
@@ -285,6 +304,7 @@ namespace Graph {
 			this->label6->Size = System::Drawing::Size(19, 13);
 			this->label6->TabIndex = 14;
 			this->label6->Text = L"u0";
+			this->toolTip1->SetToolTip(this->label6, L"Начальная температура в момент времени x=0.");
 			// 
 			// textBox7
 			// 
@@ -303,6 +323,7 @@ namespace Graph {
 			this->label7->Size = System::Drawing::Size(24, 13);
 			this->label7->TabIndex = 16;
 			this->label7->Text = L"eps";
+			this->toolTip1->SetToolTip(this->label7, L"Постоянная для ОЛП.");
 			this->label7->Click += gcnew System::EventHandler(this, &MyForm::label7_Click);
 			// 
 			// checkBox1
@@ -315,6 +336,7 @@ namespace Graph {
 			this->checkBox1->Size = System::Drawing::Size(59, 17);
 			this->checkBox1->TabIndex = 18;
 			this->checkBox1->Text = L"Control";
+			this->toolTip1->SetToolTip(this->checkBox1, L"Контроль локальной погрешности");
 			this->checkBox1->UseVisualStyleBackColor = true;
 			this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &MyForm::checkBox1_CheckedChanged);
 			// 
@@ -334,12 +356,70 @@ namespace Graph {
 			this->label8->Size = System::Drawing::Size(35, 13);
 			this->label8->TabIndex = 19;
 			this->label8->Text = L"NMax";
+			this->toolTip1->SetToolTip(this->label8, L"Максимальное число итераций. Только для метода с контролем локальной погрешности."
+				L"");
+			// 
+			// textBox9
+			// 
+			this->textBox9->Font = (gcnew System::Drawing::Font(L"Lucida Handwriting", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->textBox9->Location = System::Drawing::Point(71, 480);
+			this->textBox9->Name = L"textBox9";
+			this->textBox9->ReadOnly = true;
+			this->textBox9->Size = System::Drawing::Size(481, 26);
+			this->textBox9->TabIndex = 21;
+			this->textBox9->Text = L"du/dx = - a(u-t)  u(0)=u0";
+			this->textBox9->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->toolTip1->SetToolTip(this->textBox9, L"Уравнение, описывающее задачу.");
+			this->textBox9->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox9_TextChanged);
+			// 
+			// Local_Mistake
+			// 
+			this->Local_Mistake->HeaderText = L"Local Mistake";
+			this->Local_Mistake->Name = L"Local_Mistake";
+			this->Local_Mistake->ReadOnly = true;
+			// 
+			// Global_Mistake
+			// 
+			this->Global_Mistake->HeaderText = L"Global_Mistake";
+			this->Global_Mistake->Name = L"Global_Mistake";
+			this->Global_Mistake->ReadOnly = true;
+			this->Global_Mistake->Width = 90;
+			// 
+			// H
+			// 
+			this->H->HeaderText = L"H";
+			this->H->Name = L"H";
+			this->H->ReadOnly = true;
+			this->H->Width = 60;
+			// 
+			// F_1
+			// 
+			this->F_1->HeaderText = L"U";
+			this->F_1->Name = L"F_1";
+			this->F_1->ReadOnly = true;
+			this->F_1->Width = 70;
+			// 
+			// V
+			// 
+			this->V->HeaderText = L"V";
+			this->V->Name = L"V";
+			this->V->ReadOnly = true;
+			this->V->Width = 70;
+			// 
+			// X
+			// 
+			this->X->HeaderText = L"X";
+			this->X->Name = L"X";
+			this->X->ReadOnly = true;
+			this->X->Width = 50;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(858, 492);
+			this->ClientSize = System::Drawing::Size(1005, 525);
+			this->Controls->Add(this->textBox9);
 			this->Controls->Add(this->textBox8);
 			this->Controls->Add(this->label8);
 			this->Controls->Add(this->checkBox1);
@@ -375,7 +455,7 @@ namespace Graph {
 		panel->CurveList->Clear();
 		PointPairList^ f1_list = gcnew ZedGraph::PointPairList();
 		PointPairList^ f2_list = gcnew ZedGraph::PointPairList();
-
+		
 		// Интервал, где есть данные
 		double xmin = Convert::ToDouble(textBox1->Text);
 		double xmax = Convert::ToDouble(textBox2->Text);
@@ -405,16 +485,23 @@ namespace Graph {
 		{
 			//Добавление на график
 			f1_list->Add(ans[i].first, ans[i].second);
+			double tmp = f2(ans[i].first, u0, a, t);
+			f2_list->Add(ans[i].first,tmp );
 			//Печать в таблицу
 			dataGridView1->Rows->Add();
 			dataGridView1->Rows[i]->Cells[0]->Value = ans[i].first;
-			dataGridView1->Rows[i]->Cells[1]->Value = floor(ans[i].second * 1000) / 1000;
+			dataGridView1->Rows[i]->Cells[1]->Value = ans[i].second;
+			dataGridView1->Rows[i]->Cells[2]->Value = tmp;
+			
+			dataGridView1->Rows[i]->Cells[3]->Value = Res.h_vec[i];
+			dataGridView1->Rows[i]->Cells[4]->Value = abs(ans[i].second-tmp);
 			if (control) {
-				dataGridView1->Rows[i]->Cells[2]->Value = floor(Res.h_vec[i] * 1000) / 1000;
-				dataGridView1->Rows[i]->Cells[3]->Value = floor(Res.local_mistake_vec[i] * 1000) / 1000;
+				dataGridView1->Rows[i]->Cells[5]->Value = Res.local_mistake_vec[i];
 			}
 		}
-		LineItem Curve1 = panel->AddCurve("U(x)", f1_list, Color::Red,SymbolType::Plus);
+		
+		LineItem Curve1 = panel->AddCurve("V(x)", f1_list, Color::Red,SymbolType::None);
+		LineItem Curve2 = panel->AddCurve("U(x)", f2_list, Color::Blue, SymbolType::Plus);
 	
 		// Устанавливаем интересующий нас интервал по оси X
 		panel->XAxis->Scale->Min = xmin_limit;
@@ -453,10 +540,14 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 
 }
 private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	this->Local_Mistake->Visible = checkBox1->Checked;
 }
 private: System::Void label7_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void textBox7_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+
+private: System::Void textBox9_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }
