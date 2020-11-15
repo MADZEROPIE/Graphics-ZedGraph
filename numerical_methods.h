@@ -8,7 +8,7 @@ typedef std::pair<double, double> dpair;
 
 //ФУНКЦИИ ЗАДАЧ
 
-double f9(double x, double y, double a, double t1) { //Задача 9
+double f9(double x, double y, double a, double t1) { // Задача 9
     return -a * (y - t1);
 }
 
@@ -27,7 +27,7 @@ struct TResults {
 
 
 std::pair<double, double> RK4_new_point(
-    std::function<double(double, double,double,double)> f, //Функция dy/dx
+    std::function<double(double, double,double,double)> f,  // Функция dy/dx
     double x, double y,
     double h,
     double a, double t
@@ -61,14 +61,14 @@ TResults RungeKutta4 //Метод РГ 4 порядка
     ans.push_back(std::make_pair(x, y));
     unsigned int i = 0;
     Res.local_mistake_vec.push_back(0.0);
-    for (; x < xmax-h; ) { //Если до границы осталось меньше h, то b не используется. FIXED (А надо ли?)
+    for (; x < xmax-h; ) {  // Если до границы осталось меньше h, то b не используется. FIXED (А надо ли?)
         if (!control) {
             auto tmp = RK4_new_point(f, x, y, h,a,t);
             x = tmp.first; y = tmp.second;
             ans.push_back(tmp);
         }
         else {
-            if (i++ >= NMax) return Res; //Контроль итераций
+            if (i++ >= NMax) return Res;  // Контроль итераций
             auto p1 = RK4_new_point(f, x, y, h,a,t);
             auto p12 = RK4_new_point(f, x, y, h / 2.0,a,t);
             auto p2 = RK4_new_point(f, p12.first, p12.second, h / 2,a,t);
@@ -87,7 +87,7 @@ TResults RungeKutta4 //Метод РГ 4 порядка
         }
         
     }
-    //Возможно то, что написано ниже является бредом. Относитесь со скептисом.
+    // Возможно то, что написано ниже является бредом. Относитесь со скептисом.
     if (x + h >= xmax) {
         h = xmax - x;
         if (!control) {

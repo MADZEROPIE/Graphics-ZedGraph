@@ -107,6 +107,12 @@ namespace Graph {
 
 
 
+
+
+
+
+
+
 	protected:
 	private: System::ComponentModel::IContainer^  components;
 
@@ -146,12 +152,12 @@ namespace Graph {
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->toolTip1 = (gcnew System::Windows::Forms::ToolTip(this->components));
 			this->textBox9 = (gcnew System::Windows::Forms::TextBox());
-			this->Local_Mistake = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Global_Mistake = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->H = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->F_1 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->V = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->X = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->V = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->F_1 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->H = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->Global_Mistake = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->Local_Mistake = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -159,6 +165,7 @@ namespace Graph {
 			// 
 			this->zedGraphControl1->Location = System::Drawing::Point(12, 12);
 			this->zedGraphControl1->Name = L"zedGraphControl1";
+			this->zedGraphControl1->GraphPane->Title->Text = " ";
 			this->zedGraphControl1->ScrollGrace = 0;
 			this->zedGraphControl1->ScrollMaxX = 0;
 			this->zedGraphControl1->ScrollMaxY = 0;
@@ -373,32 +380,12 @@ namespace Graph {
 			this->toolTip1->SetToolTip(this->textBox9, L"Уравнение, описывающее задачу.");
 			this->textBox9->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox9_TextChanged);
 			// 
-			// Local_Mistake
+			// X
 			// 
-			this->Local_Mistake->HeaderText = L"Local Mistake";
-			this->Local_Mistake->Name = L"Local_Mistake";
-			this->Local_Mistake->ReadOnly = true;
-			// 
-			// Global_Mistake
-			// 
-			this->Global_Mistake->HeaderText = L"Global_Mistake";
-			this->Global_Mistake->Name = L"Global_Mistake";
-			this->Global_Mistake->ReadOnly = true;
-			this->Global_Mistake->Width = 90;
-			// 
-			// H
-			// 
-			this->H->HeaderText = L"H";
-			this->H->Name = L"H";
-			this->H->ReadOnly = true;
-			this->H->Width = 60;
-			// 
-			// F_1
-			// 
-			this->F_1->HeaderText = L"U";
-			this->F_1->Name = L"F_1";
-			this->F_1->ReadOnly = true;
-			this->F_1->Width = 70;
+			this->X->HeaderText = L"X";
+			this->X->Name = L"X";
+			this->X->ReadOnly = true;
+			this->X->Width = 50;
 			// 
 			// V
 			// 
@@ -407,12 +394,32 @@ namespace Graph {
 			this->V->ReadOnly = true;
 			this->V->Width = 70;
 			// 
-			// X
+			// F_1
 			// 
-			this->X->HeaderText = L"X";
-			this->X->Name = L"X";
-			this->X->ReadOnly = true;
-			this->X->Width = 50;
+			this->F_1->HeaderText = L"U";
+			this->F_1->Name = L"F_1";
+			this->F_1->ReadOnly = true;
+			this->F_1->Width = 70;
+			// 
+			// H
+			// 
+			this->H->HeaderText = L"H";
+			this->H->Name = L"H";
+			this->H->ReadOnly = true;
+			this->H->Width = 60;
+			// 
+			// Global_Mistake
+			// 
+			this->Global_Mistake->HeaderText = L"Global Error";
+			this->Global_Mistake->Name = L"Global_Mistake";
+			this->Global_Mistake->ReadOnly = true;
+			this->Global_Mistake->Width = 90;
+			// 
+			// Local_Mistake
+			// 
+			this->Local_Mistake->HeaderText = L"Local Error";
+			this->Local_Mistake->Name = L"Local_Mistake";
+			this->Local_Mistake->ReadOnly = true;
 			// 
 			// MyForm
 			// 
@@ -455,7 +462,7 @@ namespace Graph {
 		panel->CurveList->Clear();
 		PointPairList^ f1_list = gcnew ZedGraph::PointPairList();
 		PointPairList^ f2_list = gcnew ZedGraph::PointPairList();
-		
+		panel->Title->Text = " ";
 		// Интервал, где есть данные
 		double xmin = Convert::ToDouble(textBox1->Text);
 		double xmax = Convert::ToDouble(textBox2->Text);
