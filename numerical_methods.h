@@ -48,28 +48,28 @@ TResults RungeKutta4 //Метод РГ 4 порядка
     double xmin, double xmax, //Начало и конец отрезка интегрирования
     double y0, //Начальные условия
     double h = 0.001, //Шаг интегрирования
-    double a = 1.0, double t=0.0,
+    double a = 1.0, double t = 0.0,
     bool control = false, //Контроль погрешности
     double eps = 0.000001, //Точность контроля погрешности
     uint64_t NMax = 100 //Максимальное число итераций. Только для версии с переменным шагом.
-)
-{
+) {
     TResults Res;
-    std::vector<std::pair<double, double> >& ans=Res.res_vec;
+    std::vector<std::pair<double, double> >& ans = Res.res_vec;
     Res.h_vec.push_back(0.0);
     double x = xmin, y = y0;
     ans.push_back(std::make_pair(x, y));
     unsigned int i = 0;
     Res.local_mistake_vec.push_back(0.0);
-    for (; x < xmax-h; ) {  // Если до границы осталось меньше h, то b не используется. FIXED (А надо ли?)
+    for (; fabs(y-t)>=eps && x<xmax-h; ) {  // Если до границы осталось меньше h, то b не используется. FIXED (А надо ли?)
         if (!control) {
             auto tmp = RK4_new_point(f, x, y, h,a,t);
             x = tmp.first; y = tmp.second;
+            Res.h_vec.push_back(h);
             ans.push_back(tmp);
         }
         else {
             if (i++ >= NMax) return Res;  // Контроль итераций
-            auto p1 = RK4_new_point(f, x, y, h,a,t);
+            auto p1 = RK4_new_point(f, x, y, h, a, t);
             auto p12 = RK4_new_point(f, x, y, h / 2.0,a,t);
             auto p2 = RK4_new_point(f, p12.first, p12.second, h / 2,a,t);
             
@@ -86,34 +86,6 @@ TResults RungeKutta4 //Метод РГ 4 порядка
             }
         }
         
-    }
-    // Возможно то, что написано ниже является бредом. Относитесь со скептисом.
-    if (x + h >= xmax) {
-        h = xmax - x;
-        if (!control) {
-            auto tmp = RK4_new_point(f, x, y, h, a, t);
-            x = tmp.first; y = tmp.second;
-            ans.push_back(tmp);
-        }
-        else {
-            double s;
-            if (i++ > NMax) return Res;
-            do {
-                auto p1 = RK4_new_point(f, x, y, h, a, t);
-                auto p12 = RK4_new_point(f, x, y, h / 2.0, a, t);
-                auto p2 = RK4_new_point(f, p12.first, p12.second, h / 2.0, a, t);
-                
-                s = abs(p2.second - p1.second) / (15.0);
-                if (s > eps){ h = h / 2; ++Res.NH;}
-                else {
-                    Res.local_mistake_vec.push_back(p2.second - p1.second);
-                    Res.h_vec.push_back(h);
-                    x = p1.first; y = p1.second;
-                    ans.push_back(p1);
-                }
-            } while (s > eps);
-    
-        }
     }
 
     return Res;
