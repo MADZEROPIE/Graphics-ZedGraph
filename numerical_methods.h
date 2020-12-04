@@ -18,6 +18,7 @@ double f2(double x, double u0, double a, double t) {
 
 struct TResults {
     std::vector<dpair> res_vec;
+    std::vector<double> v2_vec;
     std::vector<double> local_mistake_vec;
     std::vector<double> h_vec;
     uint64_t ND = 0;
@@ -45,12 +46,13 @@ std::pair<double, double> RK4_new_point(
 TResults RungeKutta4 //Метод РГ 4 порядка
 (
     std::function<double(double, double, double, double)> f, //Функция du/dx
-    double xmin, double xmax, //Начало и конец отрезка интегрирования
+    double xmin, //Начало и конец отрезка интегрирования
     double y0, //Начальные условия
     double h = 0.001, //Шаг интегрирования
     double a = 1.0, double t = 0.0,
     bool control = false, //Контроль погрешности
     double eps = 0.000001, //Точность контроля погрешности
+    double eps1 = 0.000001,
     uint64_t NMax = 100 //Максимальное число итераций. Только для версии с переменным шагом.
 ) {
     TResults Res;
@@ -58,9 +60,10 @@ TResults RungeKutta4 //Метод РГ 4 порядка
     Res.h_vec.push_back(0.0);
     double x = xmin, y = y0;
     ans.push_back(std::make_pair(x, y));
+    Res.v2_vec.push_back(y);
     unsigned int i = 0;
     Res.local_mistake_vec.push_back(0.0);
-    for (; fabs(y-t)>=eps && x<xmax-h; ) {  // Если до границы осталось меньше h, то b не используется. FIXED (А надо ли?)
+    for (; fabs(y-t) >= eps1; ) {  // Если до границы осталось меньше h, то b не используется. FIXED (А надо ли?)
         if (!control) {
             auto tmp = RK4_new_point(f, x, y, h,a,t);
             x = tmp.first; y = tmp.second;
@@ -77,6 +80,7 @@ TResults RungeKutta4 //Метод РГ 4 порядка
             if (s > eps) { h = h / 2.0; ++Res.NH; }
             else {
                 x = p1.first; y = p1.second;
+                Res.v2_vec.push_back(p2.second);
                 Res.local_mistake_vec.push_back(p2.second - p1.second);
                 Res.h_vec.push_back(h);
                 if (s < (eps / 32)) {
