@@ -97,6 +97,14 @@ namespace Graph {
 
 
 
+
+
+
+
+
+
+
+
 	protected:
 	private: System::ComponentModel::IContainer^  components;
 
@@ -352,8 +360,7 @@ namespace Graph {
 			this->label8->Size = System::Drawing::Size(35, 13);
 			this->label8->TabIndex = 19;
 			this->label8->Text = L"NMax";
-			this->toolTip1->SetToolTip(this->label8, L"Максимальное число итераций. Только для метода с контролем локальной погрешности."
-				L"");
+			this->toolTip1->SetToolTip(this->label8, L"Максимальное число шагов. Только для метода с контролем локальной погрешности.");
 			// 
 			// textBox9
 			// 
@@ -437,7 +444,7 @@ namespace Graph {
 			// 
 			// Local_Mistake
 			// 
-			this->Local_Mistake->HeaderText = L"V - V2";
+			this->Local_Mistake->HeaderText = L"V2 - V";
 			this->Local_Mistake->Name = L"Local_Mistake";
 			this->Local_Mistake->ReadOnly = true;
 			// 
@@ -490,7 +497,7 @@ namespace Graph {
 		panel->CurveList->Clear();
 		PointPairList^ f1_list = gcnew ZedGraph::PointPairList();
 		PointPairList^ f2_list = gcnew ZedGraph::PointPairList();
-		panel->Title->Text = "V(x)";
+		panel->Title->Text = "График зависимости температуры от времени V(x)";
 		// Интервал, где есть данные
 		double xmin = 0.0;
 		double eps1 = Convert::ToDouble(textBox2->Text);
@@ -535,8 +542,8 @@ namespace Graph {
 				dataGridView1->Rows[i]->Cells[6]->Value = Res.local_mistake_vec[i];
 			}
 		}
-		panel->XAxis->Title->Text = "X";
-		panel->YAxis->Title->Text = "V";
+		panel->XAxis->Title->Text = "X, сек";
+		panel->YAxis->Title->Text = "V, °C";
 		LineItem Curve1 = panel->AddCurve("V(x)", f1_list, Color::Red,SymbolType::None);
 		LineItem Curve2 = panel->AddCurve("U(x)", f2_list, Color::Blue, SymbolType::Plus);
 	
